@@ -14,7 +14,7 @@ Either add it as dev dependency to your project and execute it with `./vendor/bi
 $ composer require --dev mhitza/database-graphviz
 ```
 
-Or download the packaged executable from the [GitHub release tab](/mhitza/database-graphviz/releases).
+Or download the packaged executable from the [GitHub release tab](https://github.com/mhitza/database-graphviz/releases).
 
 ## Usage
 
