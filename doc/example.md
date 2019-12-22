@@ -10,7 +10,7 @@ $ database-graphviz generate simple --dbname=employees ... > schema.gv
 $ dot -Tpng schema.gv > schema.png
 ```
 
-![simple generation with dot layout filter](doc/schema-simple-dot.png)
+![simple generation with dot layout filter](schema-simple-dot.png)
 
 ### Using the `sfdp` layout engine
 
@@ -19,7 +19,7 @@ $ database-graphviz generate simple --dbname=employees ... > schema.gv
 $ dot -Tpng -Ksfdp schema.gv > schema.png
 ```
 
-![simple generation with sfdp layout filter](doc/schema-simple-sfdp.png)
+![simple generation with sfdp layout filter](schema-simple-sfdp.png)
 
 ## Record
 ### Using the default `dot` layout engine:
@@ -29,7 +29,7 @@ $ database-graphviz generate record --dbname=employees ... > schema.gv
 $ dot -Tpng schema.gv > schema.png
 ```
 
-![record generation with dot layout filter](doc/schema-record-dot.png)
+![record generation with dot layout filter](schema-record-dot.png)
 
 ### Using the `sfdp` layout engine
 
@@ -38,4 +38,4 @@ $ database-graphviz generate record --dbname=employees ... > schema.gv
 $ dot -Tpng -Ksfdp schema.gv > schema.png
 ```
 
-![record generation with sfdp layout filter](doc/schema-record-sfdp.png)
+![record generation with sfdp layout filter](schema-record-sfdp.png)
