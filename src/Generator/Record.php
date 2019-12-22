@@ -70,7 +70,14 @@ class Record implements GeneratorInterface
     protected function collectTables(): void
     {
         $statement = $this->connection->query("SHOW TABLES");
+        /**
+         * @psalm-suppress MixedAssignment
+         */
         while ($row = $statement->fetch()) {
+            /**
+             * @var array $row
+             * @var string $tableName
+             */
             $tableName = current($row);
             $this->tables[] = $tableName;
         }
@@ -84,11 +91,21 @@ class Record implements GeneratorInterface
     {
         foreach ($this->tables as $tableName) {
             $createStatement = $this->connection->query(sprintf("SHOW CREATE TABLE %s", $tableName));
+            /**
+             * @psalm-suppress MixedAssignment
+             */
             while ($row = $createStatement->fetch()) {
+                /**
+                 * @var array $row
+                 */
                 if (false === isset($row['Create Table'])) {
                     // skip views
                     continue;
                 }
+                /**
+                 * @var string $description
+                 * @psalm-suppress MixedArrayAccess
+                 */
                 $description = $row['Create Table'];
                 $lines = explode("\n", $description);
 

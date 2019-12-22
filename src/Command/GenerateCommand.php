@@ -89,6 +89,7 @@ class GenerateCommand extends Command
      * @return int
      * @throws DBALException
      * @SuppressWarnings(PHPMD.StaticAccess)
+     * @psalm-suppress InternalClass
      */
     protected function execute(InputInterface $input, OutputInterface $output)
     {
