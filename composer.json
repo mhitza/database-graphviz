@@ -1,0 +1,15 @@
+{
+    "name": "mhitza/database-graphviz",
+    "description": "generate graphviz graphs for a database",
+    "type": "project",
+    "require": {
+        "doctrine/dbal": "^2.10"
+    },
+    "license": "LGPL",
+    "authors": [
+        {
+            "name": "Marius Ghita",
+            "email": "mhitza@gmail.com"
+        }
+    ]
+}
