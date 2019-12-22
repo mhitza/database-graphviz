@@ -74,6 +74,10 @@ class Record implements GeneratorInterface
         foreach ($this->tables as $tableName) {
             $createStatement = $this->connection->query(sprintf("SHOW CREATE TABLE %s", $tableName));
             while ($row = $createStatement->fetch()) {
+                if (false === isset($row['Create Table'])) {
+                    // skip views
+                    continue;
+                }
                 $description = $row['Create Table'];
                 $lines = explode("\n", $description);
 
