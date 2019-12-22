@@ -4,6 +4,7 @@
 namespace DatabaseGraphviz\Command;
 
 
+use DatabaseGraphviz\Generator\Record;
 use DatabaseGraphviz\Generator\Simple;
 use Doctrine\DBAL\Configuration;
 use Doctrine\DBAL\Connection;
@@ -15,6 +16,8 @@ use Symfony\Component\Console\Output\OutputInterface;
 
 class GenerateCommand extends Command
 {
+    const TYPE_SIMPLE = 'simple';
+    const TYPE_RECORD = 'record';
 
     protected static $defaultName = "generate";
 
@@ -25,6 +28,7 @@ class GenerateCommand extends Command
         $this
             ->setDescription('Generate a graphviz DOT language graph definition for current database')
             ->addArgument('database-name', InputArgument::REQUIRED)
+            ->addArgument('type', InputArgument::REQUIRED, 'Either "simple" or "record"')
         ;
 
     }
@@ -45,7 +49,18 @@ class GenerateCommand extends Command
             $config
         );
 
-        $generator = new Simple($connection, $databaseName);
+        $generator = null;
+        switch ($input->getArgument('type')) {
+            case self::TYPE_SIMPLE:
+                $generator = new Simple($connection, $databaseName);
+                break;
+            case self::TYPE_RECORD:
+                $generator = new Record($connection, $databaseName);
+                break;
+            default:
+                throw new \DomainException('Invalid type specified');
+        }
+
         $output->writeln($generator->generate());
 
         return 0;
