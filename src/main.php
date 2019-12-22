@@ -5,8 +5,12 @@ $records = true;
 
 use Doctrine\DBAL\Configuration;
 use Doctrine\DBAL\DriverManager;
+use Symfony\Component\Console\Application;
 
 include_once __DIR__ . '/../vendor/autoload.php';
+
+$application = new Application('database-graphviz');
+$application->run();
 
 $config = new Configuration();
 $connection = DriverManager::getConnection(

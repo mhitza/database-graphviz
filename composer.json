@@ -3,7 +3,8 @@
     "description": "generate graphviz graphs for a database",
     "type": "project",
     "require": {
-        "doctrine/dbal": "^2.10"
+        "doctrine/dbal": "^2.10",
+        "symfony/console": "^5.0"
     },
     "license": "LGPL",
     "authors": [
