@@ -12,5 +12,10 @@
             "name": "Marius Ghita",
             "email": "mhitza@gmail.com"
         }
-    ]
+    ],
+    "autoload": {
+        "psr-4": {
+            "DatabaseGraphviz\\": "src/"
+        }
+    }
 }

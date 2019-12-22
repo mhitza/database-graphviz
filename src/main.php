@@ -3,6 +3,7 @@
 $print = true;
 $records = true;
 
+use DatabaseGraphviz\Command\GenerateCommand;
 use Doctrine\DBAL\Configuration;
 use Doctrine\DBAL\DriverManager;
 use Symfony\Component\Console\Application;
@@ -10,6 +11,7 @@ use Symfony\Component\Console\Application;
 include_once __DIR__ . '/../vendor/autoload.php';
 
 $application = new Application('database-graphviz');
+$application->add(new GenerateCommand());
 $application->run();
 
 $config = new Configuration();
