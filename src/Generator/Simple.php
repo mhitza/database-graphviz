@@ -8,7 +8,7 @@ use Doctrine\DBAL\Connection;
 use Doctrine\DBAL\DBALException;
 use Generator;
 
-class Simple
+class Simple implements GeneratorInterface
 {
 
     /**
