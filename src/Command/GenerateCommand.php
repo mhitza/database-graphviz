@@ -4,6 +4,7 @@
 namespace DatabaseGraphviz\Command;
 
 
+use DatabaseGraphviz\Generator\Simple;
 use Doctrine\DBAL\Configuration;
 use Doctrine\DBAL\Connection;
 use Doctrine\DBAL\DriverManager;
@@ -44,46 +45,9 @@ class GenerateCommand extends Command
             $config
         );
 
-        $output->writeln(sprintf("digraph %s {", $databaseName));
-        $output->writeln($this->dumpTables($connection));
-        $output->writeln($this->dumpRelationships($connection));
-        $output->writeln('}');
+        $generator = new Simple($connection, $databaseName);
+        $output->writeln($generator->generate());
 
         return 0;
-    }
-
-
-    protected function dumpTables(Connection $connection)
-    {
-        $statement = $connection->query("SHOW TABLES");
-        while ($row = $statement->fetch()) {
-            $tableName = current($row);
-
-            $this->tables[] = $tableName;
-
-            yield "\t$tableName;";
-        }
-    }
-
-
-    protected function dumpRelationships(Connection $connection)
-    {
-        foreach ($this->tables as $tableName) {
-            $createStatement = $connection->query(sprintf("SHOW CREATE TABLE %s", $tableName));
-            while ($row = $createStatement->fetch()) {
-                $description = $row['Create Table'];
-                $lines = explode("\n", $description);
-
-                foreach ($lines as $line) {
-                    if (preg_match('/FOREIGN KEY \(.*\) REFERENCES .*?\(.*\)/', $line, $matches)) {
-                        $relationship = str_replace(['FOREIGN KEY ', 'REFERENCES ', '(', ')', '`'], '', $matches[0]);
-
-                        $parts = explode(' ', $relationship);
-
-                        yield sprintf("\t%s -> %s [label=\"%s\"];", $tableName, $parts[1], $parts[0]);
-                    }
-                }
-            }
-        }
     }
 }
