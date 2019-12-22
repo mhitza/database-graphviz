@@ -20,9 +20,7 @@
     },
     "require-dev": {
         "clue/phar-composer": "^1.1",
-        "phpmd/phpmd": "^2.7",
         "friendsofphp/php-cs-fixer": "^2.16",
-        "phpstan/phpstan": "^0.12.3",
         "vimeo/psalm": "^3.7"
     },
     "bin": ["bin/database-graphviz"]

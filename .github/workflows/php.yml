@@ -1,6 +1,9 @@
 name: PHP Composer
 
 on:
+  pull_request:
+    branches:
+      - master
   push:
     branches:
       - master
@@ -24,3 +27,6 @@ jobs:
 
     - name: Install dependencies
       run: composer install --prefer-dist --no-progress --no-suggest
+
+    - name: Run Psalm
+      run: ./vendor/bin/psalm
