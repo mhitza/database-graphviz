@@ -1,7 +1,7 @@
 {
     "name": "mhitza/database-graphviz",
     "description": "generate graphviz graphs for a database",
-    "type": "project",
+    "type": "library",
     "require": {
         "doctrine/dbal": "^2.10",
         "symfony/console": "^5.0"
