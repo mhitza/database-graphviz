@@ -17,5 +17,9 @@
         "psr-4": {
             "DatabaseGraphviz\\": "src/"
         }
-    }
+    },
+    "require-dev": {
+        "clue/phar-composer": "^1.1"
+    },
+    "bin": ["src/main.php"]
 }

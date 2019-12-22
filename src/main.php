@@ -1,3 +1,4 @@
+#!/usr/bin/env php
 <?php
 /**
  * @copyright 2019 Marius Ghita <mhitza@gmail.com>
