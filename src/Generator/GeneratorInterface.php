@@ -21,13 +21,15 @@
 
 namespace DatabaseGraphviz\Generator;
 
-
 use Doctrine\DBAL\Connection;
+use Generator;
 
 interface GeneratorInterface
 {
-
     public function __construct(Connection $connection, string $databaseName);
 
+    /**
+     * @return Generator<string>|string
+     */
     public function generate();
 }

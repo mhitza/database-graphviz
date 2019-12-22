@@ -21,8 +21,9 @@
 
 namespace DatabaseGraphviz\Generator;
 
-
 use Doctrine\DBAL\Connection;
+use Doctrine\DBAL\DBALException;
+use Generator;
 
 class Record implements GeneratorInterface
 {
@@ -35,7 +36,7 @@ class Record implements GeneratorInterface
      */
     private $databaseName;
     /**
-     * @var array
+     * @var array<string>
      */
     private $tables = [];
 
@@ -45,6 +46,10 @@ class Record implements GeneratorInterface
         $this->databaseName = $databaseName;
     }
 
+    /**
+     * @return Generator<string>
+     * @throws DBALException
+     */
     public function generate()
     {
         yield sprintf("digraph %s {", $this->databaseName);
@@ -59,7 +64,10 @@ class Record implements GeneratorInterface
     }
 
 
-    protected function collectTables()
+    /**
+     * @throws DBALException
+     */
+    protected function collectTables(): void
     {
         $statement = $this->connection->query("SHOW TABLES");
         while ($row = $statement->fetch()) {
@@ -68,9 +76,12 @@ class Record implements GeneratorInterface
         }
     }
 
+    /**
+     * @return Generator<string>
+     * @throws DBALException
+     */
     protected function getTablesWithRowsAndRelationships()
     {
-
         foreach ($this->tables as $tableName) {
             $createStatement = $this->connection->query(sprintf("SHOW CREATE TABLE %s", $tableName));
             while ($row = $createStatement->fetch()) {
@@ -101,7 +112,7 @@ class Record implements GeneratorInterface
                 array_unshift($columns, $tableName);
 
                 yield sprintf("\t%s [label=\"%s\"];", $tableName, implode("|", array_map(
-                    function($column) {
+                    function ($column) {
                         return sprintf("<%s> %s", $column, $column);
                     },
                     $columns

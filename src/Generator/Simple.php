@@ -21,7 +21,6 @@
 
 namespace DatabaseGraphviz\Generator;
 
-
 use Doctrine\DBAL\Connection;
 use Doctrine\DBAL\DBALException;
 use Generator;
@@ -38,7 +37,7 @@ class Simple implements GeneratorInterface
      */
     private $databaseName;
     /**
-     * @var array
+     * @var string[]
      */
     private $tables = [];
 
@@ -55,7 +54,7 @@ class Simple implements GeneratorInterface
 
 
     /**
-     * @return Generator
+     * @return Generator<string>
      * @throws DBALException
      */
     public function generate()
@@ -70,7 +69,7 @@ class Simple implements GeneratorInterface
     }
 
     /**
-     * @return Generator
+     * @return Generator<string>
      * @throws DBALException
      */
     protected function getTables()
@@ -86,6 +85,10 @@ class Simple implements GeneratorInterface
     }
 
 
+    /**
+     * @return Generator<string>
+     * @throws DBALException
+     */
     protected function getRelationships()
     {
         foreach ($this->tables as $tableName) {

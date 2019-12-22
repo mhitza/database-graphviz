@@ -21,12 +21,12 @@
 
 namespace DatabaseGraphviz\Command;
 
-
 use DatabaseGraphviz\Generator\Record;
 use DatabaseGraphviz\Generator\Simple;
 use Doctrine\DBAL\Configuration;
 use Doctrine\DBAL\DBALException;
 use Doctrine\DBAL\DriverManager;
+use DomainException;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
@@ -40,9 +40,15 @@ class GenerateCommand extends Command
 
     protected static $defaultName = "generate";
 
+    /**
+     * @var string[]
+     */
     protected $tables = [];
 
-    protected function configure()
+    /**
+     * @inheritDoc
+     */
+    protected function configure(): void
     {
         $this
             ->setDescription('Generate a graphviz DOT language graph definition for current database')
@@ -75,7 +81,6 @@ class GenerateCommand extends Command
                 '127.0.0.1'
             )
         ;
-
     }
 
     /**
@@ -83,9 +88,13 @@ class GenerateCommand extends Command
      * @param OutputInterface $output
      * @return int
      * @throws DBALException
+     * @SuppressWarnings(PHPMD.StaticAccess)
      */
     protected function execute(InputInterface $input, OutputInterface $output)
     {
+        /**
+         * @var string $databaseName
+         */
         $databaseName = $input->getOption('dbname');
 
         $config = new Configuration();
@@ -109,7 +118,7 @@ class GenerateCommand extends Command
                 $generator = new Record($connection, $databaseName);
                 break;
             default:
-                throw new \DomainException('Invalid type specified');
+                throw new DomainException('Invalid type specified');
         }
 
         $output->writeln($generator->generate());
