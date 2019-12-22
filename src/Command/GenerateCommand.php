@@ -23,7 +23,6 @@ namespace DatabaseGraphviz\Command;
 
 use DatabaseGraphviz\Generator\Record;
 use DatabaseGraphviz\Generator\Simple;
-use Doctrine\DBAL\Configuration;
 use Doctrine\DBAL\DBALException;
 use Doctrine\DBAL\DriverManager;
 use DomainException;
@@ -88,8 +87,6 @@ class GenerateCommand extends Command
      * @param OutputInterface $output
      * @return int
      * @throws DBALException
-     * @SuppressWarnings(PHPMD.StaticAccess)
-     * @psalm-suppress InternalClass
      */
     protected function execute(InputInterface $input, OutputInterface $output)
     {
@@ -98,7 +95,6 @@ class GenerateCommand extends Command
          */
         $databaseName = $input->getOption('dbname');
 
-        $config = new Configuration();
         $connection = DriverManager::getConnection(
             [
                 "driver" => "pdo_mysql",
@@ -106,8 +102,7 @@ class GenerateCommand extends Command
                 "host" => $input->getOption('host'),
                 "user" => $input->getOption('user'),
                 "password" => $input->getOption('password')
-            ],
-            $config
+            ]
         );
 
         $generator = null;
