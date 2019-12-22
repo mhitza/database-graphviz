@@ -1,5 +1,5 @@
 # database-graphviz
-A simple command line tool that can generate a Graphviz graph based on your schema relationships
+A simple command line tool that can generate a Graphviz graph based on your MySQL/MariaDB schema relationships
 
 ## Motivation
 
