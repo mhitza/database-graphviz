@@ -79,6 +79,13 @@ class GenerateCommand extends Command
                 'Database host',
                 '127.0.0.1'
             )
+            ->addOption(
+                'port',
+                null,
+                InputOption::VALUE_OPTIONAL,
+                'Database port',
+                '3306'
+            )
         ;
     }
 
@@ -100,6 +107,7 @@ class GenerateCommand extends Command
                 "driver" => "pdo_mysql",
                 "dbname" => $databaseName,
                 "host" => $input->getOption('host'),
+                "port" => $input->getOption('port'),
                 "user" => $input->getOption('user'),
                 "password" => $input->getOption('password')
             ]
