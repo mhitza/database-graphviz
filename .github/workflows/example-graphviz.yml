@@ -1,0 +1,58 @@
+name: Generate example graphviz diagrams
+
+on:
+  pull_request:
+    paths:
+      - doc/example.sql
+
+jobs:
+  build:
+
+    runs-on: ubuntu-latest
+    
+    services:
+      mariadb:
+        image: mariadb
+        ports: 
+          - 3306/tcp
+        env:
+          MYSQL_ROOT_PASSWORD: password
+
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: Cache dependencies
+        uses: actions/cache@v1
+        with:
+          path: vendor
+          key: composer-${{ hashFiles('composer.lock') }}
+
+      - name: Install dependencies
+        run: composer install --prefer-dist --no-progress --no-suggest
+
+      - name: Install dot
+        run: sudo apt install -y graphviz
+
+      - name: Import example database
+        run: |
+          mysql -uroot -h127.0.0.1 -ppassword -P ${{ job.services.mariadb.ports['3306'] }} < doc/example.sql
+
+      - name: Generate rendered graphs
+        env:
+          PARAMS: --dbname employees --password password --port ${{ job.services.mariadb.ports['3306'] }}
+        run: |
+          ./bin/database-graphviz generate simple $PARAMS > simple.gv
+          dot -Tpng -Kdot simple.gv > doc/schema-simple-dot.png
+          dot -Tpng -Ksfdp simple.gv > doc/schema-simple-sfdp.png
+          rm simple.gv
+
+          ./bin/database-graphviz generate record $PARAMS > record.gv
+          dot -Tpng -Kdot record.gv > doc/schema-record-dot.png
+          dot -Tpng -Ksfdp record.gv > doc/schema-record-sfdp.png
+          rm record.gv
+
+      - name: Commit rendered graphs
+        uses: docker://cdssnc/auto-commit-github-action
+        with:
+          github-token: ${{secrets.GITHUB_TOKEN}}
+          args: AUTOCOMMIT rendered graphs
