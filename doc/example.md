@@ -1,6 +1,6 @@
 Using the employees database schema available at [datacharmer/test_db](https://github.com/datacharmer/test_db). While the
-current implementation does not explicitly support views, in the simple section you will see two additional tables as
-opposed to the record section. Those are views that are shown by default by the `SHOW TABLES` command.
+current implementation does not explicitly support views, they will show in when generating using the simple method
+because they are listed by the MySQL/MariaDB `SHOW TABLES` command.
 
 ## Simple
 ### Using the default `dot` layout engine:
