@@ -2,7 +2,7 @@ name: Upload release build
 
 on:
   release:
-    type:
+    types:
       - created
 
 jobs:
