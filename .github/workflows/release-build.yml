@@ -25,8 +25,13 @@ jobs:
       - name: Install dependencies
         run: composer install --prefer-dist --no-progress --no-suggest
 
+      - name: Download phar-composer-1.1.0
+        run: |
+          wget https://github.com/clue/phar-composer/releases/download/v1.1.0/phar-composer-1.1.0.phar phar-composer
+          chmod +x phar-composer
+
       - name: Build phar
-        run: ./vendor/bin/phar-composer build .
+        run: ./phar-composer build .
 
       - name: Upload phar
         uses: jasonetco/upload-to-release@v0.1.1
