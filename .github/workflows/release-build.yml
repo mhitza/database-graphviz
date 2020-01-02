@@ -27,7 +27,8 @@ jobs:
 
       - name: Download phar-composer-1.1.0
         run: |
-          wget https://github.com/clue/phar-composer/releases/download/v1.1.0/phar-composer-1.1.0.phar phar-composer
+          wget https://github.com/clue/phar-composer/releases/download/v1.1.0/phar-composer-1.1.0.phar
+          mv phar-composer-1.1.0.phar phar-composer
           chmod +x phar-composer
 
       - name: Build phar
