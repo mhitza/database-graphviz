@@ -1,0 +1,36 @@
+name: Upload release build
+
+on:
+  release:
+    type:
+      - created
+
+jobs:
+  build-and-publish:
+
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: checkout master
+        uses: actions/checkout@v2
+        with:
+          ref: master
+
+      - name: Cache dependencies
+        uses: actions/cache@v1
+        with:
+          path: vendor
+          key: composer-${{ hashFiles('composer.lock') }}
+
+      - name: Install dependencies
+        run: composer install --prefer-dist --no-progress --no-suggest
+
+      - name: Build phar
+        run: ./vendor/bin/phar-composer build .
+
+      - name: Upload phar
+        uses: jasonetco/upload-to-release@v0.1.1
+        with:
+          args: database-graphviz.phar application/octet-stream
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
