@@ -1,4 +1,6 @@
 # database-graphviz
+[![FOSSA Status](https://app.fossa.io/api/projects/git%2Bgithub.com%2Fmhitza%2Fdatabase-graphviz.svg?type=shield)](https://app.fossa.io/projects/git%2Bgithub.com%2Fmhitza%2Fdatabase-graphviz?ref=badge_shield)
+
 A simple command line tool that can generate a Graphviz graph based on your MySQL/MariaDB schema relationships
 
 ## Motivation
@@ -19,3 +21,7 @@ Or download the packaged executable from the [GitHub release tab](https://github
 ## Usage
 
 See the [example page](doc/example.md) for some steps to get you started.
+
+
+## License
+[![FOSSA Status](https://app.fossa.io/api/projects/git%2Bgithub.com%2Fmhitza%2Fdatabase-graphviz.svg?type=large)](https://app.fossa.io/projects/git%2Bgithub.com%2Fmhitza%2Fdatabase-graphviz?ref=badge_large)
