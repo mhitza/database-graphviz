@@ -9,11 +9,11 @@ jobs:
   build:
 
     runs-on: ubuntu-latest
-    
+
     services:
       mariadb:
         image: mariadb
-        ports: 
+        ports:
           - 3306/tcp
         env:
           MYSQL_ROOT_PASSWORD: password
@@ -41,7 +41,7 @@ jobs:
 
       - name: Generate rendered graphs
         env:
-          PARAMS: --dbname employees --password password --port ${{ job.services.mariadb.ports['3306'] }}
+          PARAMS: employees --password password --port ${{ job.services.mariadb.ports['3306'] }}
         run: |
           ./bin/database-graphviz generate simple $PARAMS > simple.gv
           dot -Tpng -Kdot simple.gv > doc/schema-simple-dot.png

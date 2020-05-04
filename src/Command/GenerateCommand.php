@@ -52,12 +52,7 @@ class GenerateCommand extends Command
         $this
             ->setDescription('Generate a graphviz DOT language graph definition for current database')
             ->addArgument('type', InputArgument::REQUIRED, 'Either "simple" or "record"')
-            ->addOption(
-                'dbname',
-                null,
-                InputOption::VALUE_REQUIRED,
-                'Database name'
-            )
+            ->addArgument('dbname', InputArgument::REQUIRED, 'Database name')
             ->addOption(
                 'user',
                 null,
@@ -100,7 +95,7 @@ class GenerateCommand extends Command
         /**
          * @var string $databaseName
          */
-        $databaseName = $input->getOption('dbname');
+        $databaseName = $input->getArgument('dbname');
 
         $connection = DriverManager::getConnection(
             [

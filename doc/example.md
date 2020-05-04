@@ -6,7 +6,7 @@ because they are listed by the MySQL/MariaDB `SHOW TABLES` command.
 ### Using the default `dot` layout engine:
 
 ```
-$ database-graphviz generate simple --dbname=employees ... > schema.gv
+$ database-graphviz generate simple employees ... > schema.gv
 $ dot -Tpng schema.gv > schema.png
 ```
 
@@ -15,7 +15,7 @@ $ dot -Tpng schema.gv > schema.png
 ### Using the `sfdp` layout engine
 
 ```
-$ database-graphviz generate simple --dbname=employees ... > schema.gv
+$ database-graphviz generate simple employees ... > schema.gv
 $ dot -Tpng -Ksfdp schema.gv > schema.png
 ```
 
@@ -25,7 +25,7 @@ $ dot -Tpng -Ksfdp schema.gv > schema.png
 ### Using the default `dot` layout engine:
 
 ```
-$ database-graphviz generate record --dbname=employees ... > schema.gv
+$ database-graphviz generate record employees ... > schema.gv
 $ dot -Tpng schema.gv > schema.png
 ```
 
@@ -34,7 +34,7 @@ $ dot -Tpng schema.gv > schema.png
 ### Using the `sfdp` layout engine
 
 ```
-$ database-graphviz generate record --dbname=employees ... > schema.gv
+$ database-graphviz generate record employees ... > schema.gv
 $ dot -Tpng -Ksfdp schema.gv > schema.png
 ```
 
