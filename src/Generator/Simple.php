@@ -16,7 +16,6 @@
  *
  * You should have received a copy of the GNU General Public License
  * along with database-graphviz.  If not, see <https://www.gnu.org/licenses/>.
- *
  */
 
 namespace DatabaseGraphviz\Generator;
@@ -27,7 +26,6 @@ use Generator;
 
 class Simple implements GeneratorInterface
 {
-
     /**
      * @var Connection
      */
@@ -52,14 +50,14 @@ class Simple implements GeneratorInterface
         $this->databaseName = $databaseName;
     }
 
-
     /**
      * @return Generator<string>
+     *
      * @throws DBALException
      */
     public function generate()
     {
-        yield sprintf("digraph %s {", $this->databaseName);
+        yield sprintf('digraph %s {', $this->databaseName);
 
         yield from $this->getTables();
 
@@ -70,17 +68,18 @@ class Simple implements GeneratorInterface
 
     /**
      * @return Generator<string>
+     *
      * @throws DBALException
      */
     protected function getTables()
     {
-        $statement = $this->connection->query("SHOW TABLES");
-        /**
+        $statement = $this->connection->query('SHOW TABLES');
+        /*
          * @psalm-suppress MixedAssignment
          */
         while ($row = $statement->fetch()) {
             /**
-             * @var array $row
+             * @var array  $row
              * @var string $tableName
              */
             $tableName = current($row);
@@ -91,16 +90,16 @@ class Simple implements GeneratorInterface
         }
     }
 
-
     /**
      * @return Generator<string>
+     *
      * @throws DBALException
      */
     protected function getRelationships()
     {
         foreach ($this->tables as $tableName) {
-            $createStatement = $this->connection->query(sprintf("SHOW CREATE TABLE %s", $tableName));
-            /**
+            $createStatement = $this->connection->query(sprintf('SHOW CREATE TABLE %s', $tableName));
+            /*
              * @psalm-suppress MixedAssignment
              */
             while ($row = $createStatement->fetch()) {
