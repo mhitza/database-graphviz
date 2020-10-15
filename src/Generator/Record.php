@@ -21,6 +21,7 @@
 namespace DatabaseGraphviz\Generator;
 
 use Doctrine\DBAL\Connection;
+use Doctrine\DBAL\Driver\PDO\Statement;
 use Exception;
 use Generator;
 
@@ -70,6 +71,7 @@ class Record implements GeneratorInterface
      */
     protected function collectTables(): void
     {
+        /** @var Statement $statement */
         $statement = $this->connection->executeQuery('SHOW TABLES');
         /*
          * @psalm-suppress MixedAssignment
@@ -88,6 +90,7 @@ class Record implements GeneratorInterface
     protected function getTablesWithRowsAndRelationships()
     {
         foreach ($this->tables as $tableName) {
+            /** @var Statement $createStatement */
             $createStatement = $this->connection->executeQuery(sprintf('SHOW CREATE TABLE %s', $tableName));
             /*
              * @psalm-suppress MixedAssignment

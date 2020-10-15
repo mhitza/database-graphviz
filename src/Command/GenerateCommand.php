@@ -16,14 +16,13 @@
  *
  * You should have received a copy of the GNU General Public License
  * along with database-graphviz.  If not, see <https://www.gnu.org/licenses/>.
- *
  */
 
 namespace DatabaseGraphviz\Command;
 
 use DatabaseGraphviz\Generator\Record;
 use DatabaseGraphviz\Generator\Simple;
-use Doctrine\DBAL\DBALException;
+use Doctrine\DBAL\Driver\Exception;
 use Doctrine\DBAL\DriverManager;
 use DomainException;
 use Symfony\Component\Console\Command\Command;
@@ -37,7 +36,7 @@ class GenerateCommand extends Command
     const TYPE_SIMPLE = 'simple';
     const TYPE_RECORD = 'record';
 
-    protected static $defaultName = "generate";
+    protected static $defaultName = 'generate';
 
     /**
      * @var string[]
@@ -45,7 +44,7 @@ class GenerateCommand extends Command
     protected $tables = [];
 
     /**
-     * @inheritDoc
+     * {@inheritdoc}
      */
     protected function configure(): void
     {
@@ -88,7 +87,9 @@ class GenerateCommand extends Command
      * @param InputInterface $input
      * @param OutputInterface $output
      * @return int
-     * @throws DBALException
+     *
+     * @throws Exception
+     * @throws \Doctrine\DBAL\Exception
      */
     protected function execute(InputInterface $input, OutputInterface $output)
     {
@@ -97,14 +98,15 @@ class GenerateCommand extends Command
          */
         $databaseName = $input->getArgument('dbname');
 
+        /** @phpstan-ignore-next-line */
         $connection = DriverManager::getConnection(
             [
-                "driver" => "pdo_mysql",
-                "dbname" => $databaseName,
-                "host" => $input->getOption('host'),
-                "port" => $input->getOption('port'),
-                "user" => $input->getOption('user'),
-                "password" => $input->getOption('password')
+                'driver' => 'pdo_mysql',
+                'dbname' => $databaseName,
+                'host' => $input->getOption('host'),
+                'port' => $input->getOption('port'),
+                'user' => $input->getOption('user'),
+                'password' => $input->getOption('password'),
             ]
         );
 
