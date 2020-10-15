@@ -21,7 +21,7 @@
 namespace DatabaseGraphviz\Generator;
 
 use Doctrine\DBAL\Connection;
-use Doctrine\DBAL\DBALException;
+use Exception;
 use Generator;
 
 class Simple implements GeneratorInterface
@@ -53,7 +53,8 @@ class Simple implements GeneratorInterface
     /**
      * @return Generator<string>
      *
-     * @throws DBALException
+     * @throws Exception
+     * @throws \Doctrine\DBAL\Driver\Exception
      */
     public function generate()
     {
@@ -69,21 +70,16 @@ class Simple implements GeneratorInterface
     /**
      * @return Generator<string>
      *
-     * @throws DBALException
+     * @throws Exception
+     * @throws \Doctrine\DBAL\Driver\Exception
      */
     protected function getTables()
     {
-        $statement = $this->connection->query('SHOW TABLES');
+        $statement = $this->connection->executeQuery('SHOW TABLES');
         /*
          * @psalm-suppress MixedAssignment
          */
-        while ($row = $statement->fetch()) {
-            /**
-             * @var array  $row
-             * @var string $tableName
-             */
-            $tableName = current($row);
-
+        while ($tableName = $statement->fetchOne()) {
             $this->tables[] = $tableName;
 
             yield "\t$tableName;";
@@ -93,16 +89,17 @@ class Simple implements GeneratorInterface
     /**
      * @return Generator<string>
      *
-     * @throws DBALException
+     * @throws Exception
+     * @throws \Doctrine\DBAL\Driver\Exception
      */
     protected function getRelationships()
     {
         foreach ($this->tables as $tableName) {
-            $createStatement = $this->connection->query(sprintf('SHOW CREATE TABLE %s', $tableName));
+            $createStatement = $this->connection->executeQuery(sprintf('SHOW CREATE TABLE %s', $tableName));
             /*
              * @psalm-suppress MixedAssignment
              */
-            while ($row = $createStatement->fetch()) {
+            while ($row = $createStatement->fetchAssociative()) {
                 /**
                  * @var array $row
                  */

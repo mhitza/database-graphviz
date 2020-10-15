@@ -16,13 +16,12 @@
  *
  * You should have received a copy of the GNU General Public License
  * along with database-graphviz.  If not, see <https://www.gnu.org/licenses/>.
- *
  */
 
 namespace DatabaseGraphviz\Generator;
 
 use Doctrine\DBAL\Connection;
-use Doctrine\DBAL\DBALException;
+use Exception;
 use Generator;
 
 class Record implements GeneratorInterface
@@ -48,11 +47,13 @@ class Record implements GeneratorInterface
 
     /**
      * @return Generator<string>
-     * @throws DBALException
+     *
+     * @throws Exception
+     * @throws \Doctrine\DBAL\Driver\Exception
      */
     public function generate()
     {
-        yield sprintf("digraph %s {", $this->databaseName);
+        yield sprintf('digraph %s {', $this->databaseName);
         yield sprintf("\tnode [shape=record];");
         yield sprintf("\trankdir=LR;");
 
@@ -63,38 +64,35 @@ class Record implements GeneratorInterface
         yield '}';
     }
 
-
     /**
-     * @throws DBALException
+     * @throws Exception
+     * @throws \Doctrine\DBAL\Driver\Exception
      */
     protected function collectTables(): void
     {
-        $statement = $this->connection->query("SHOW TABLES");
-        /**
+        $statement = $this->connection->executeQuery('SHOW TABLES');
+        /*
          * @psalm-suppress MixedAssignment
          */
-        while ($row = $statement->fetch()) {
-            /**
-             * @var array $row
-             * @var string $tableName
-             */
-            $tableName = current($row);
+        while ($tableName = $statement->fetchOne()) {
             $this->tables[] = $tableName;
         }
     }
 
     /**
      * @return Generator<string>
-     * @throws DBALException
+     *
+     * @throws Exception
+     * @throws \Doctrine\DBAL\Driver\Exception
      */
     protected function getTablesWithRowsAndRelationships()
     {
         foreach ($this->tables as $tableName) {
-            $createStatement = $this->connection->query(sprintf("SHOW CREATE TABLE %s", $tableName));
-            /**
+            $createStatement = $this->connection->executeQuery(sprintf('SHOW CREATE TABLE %s', $tableName));
+            /*
              * @psalm-suppress MixedAssignment
              */
-            while ($row = $createStatement->fetch()) {
+            while ($row = $createStatement->fetchAssociative()) {
                 /**
                  * @var array $row
                  */
@@ -122,20 +120,20 @@ class Record implements GeneratorInterface
                     }
                 }
 
-                /**
+                /*
                  * NOTE: Just by using the record type there can be no distinction between say a "header" of the record
                  * and all the other rows, as such we just push the table name on top of the record
                  */
                 array_unshift($columns, $tableName);
 
-                yield sprintf("\t%s [label=\"%s\"];", $tableName, implode("|", array_map(
+                yield sprintf("\t%s [label=\"%s\"];", $tableName, implode('|', array_map(
                     function ($column) {
-                        return sprintf("<%s> %s", $column, $column);
+                        return sprintf('<%s> %s', $column, $column);
                     },
                     $columns
                 )));
 
-                yield implode("", $relationships);
+                yield implode('', $relationships);
             }
         }
     }
