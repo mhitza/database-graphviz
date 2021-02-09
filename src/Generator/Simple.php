@@ -105,7 +105,7 @@ class Simple implements GeneratorInterface
              */
             while (false !== ($row = $createStatement->fetchAssociative())) {
                 /**
-                 * @var array $row
+                 * @var array<string, string> $row
                  */
                 if (false === isset($row['Create Table'])) {
                     // skip views

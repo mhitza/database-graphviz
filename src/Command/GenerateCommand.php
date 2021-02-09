@@ -98,7 +98,6 @@ class GenerateCommand extends Command
          */
         $databaseName = $input->getArgument('dbname');
 
-        /** @phpstan-ignore-next-line */
         $connection = DriverManager::getConnection(
             [
                 'driver' => 'pdo_mysql',
