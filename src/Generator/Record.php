@@ -27,18 +27,12 @@ use Generator;
 
 class Record implements GeneratorInterface
 {
-    /**
-     * @var Connection
-     */
-    private $connection;
-    /**
-     * @var string
-     */
-    private $databaseName;
+    private Connection $connection;
+    private string $databaseName;
     /**
      * @var array<string>
      */
-    private $tables = [];
+    private array $tables = [];
 
     public function __construct(Connection $connection, string $databaseName)
     {

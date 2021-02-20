@@ -41,7 +41,7 @@ class GenerateCommand extends Command
     /**
      * @var string[]
      */
-    protected $tables = [];
+    protected array $tables = [];
 
     /**
      * {@inheritdoc}

@@ -3,7 +3,7 @@
     "description": "generate graphviz graphs for a database",
     "type": "library",
     "require": {
-        "php": ">=7.3||>=8.0",
+        "php": ">=7.4||>=8.0",
         "doctrine/dbal": "~3.0",
         "symfony/console": "^5.0"
     },

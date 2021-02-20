@@ -27,18 +27,12 @@ use Generator;
 
 class Simple implements GeneratorInterface
 {
+    private Connection $connection;
+    private string $databaseName;
     /**
-     * @var Connection
+     * @var array<string>
      */
-    private $connection;
-    /**
-     * @var string
-     */
-    private $databaseName;
-    /**
-     * @var string[]
-     */
-    private $tables = [];
+    protected array $tables = [];
 
     /**
      * Simple constructor.
