@@ -21,7 +21,7 @@
 namespace DatabaseGraphviz\Generator;
 
 use Doctrine\DBAL\Connection;
-use Doctrine\DBAL\Driver\PDO\Statement;
+use Doctrine\DBAL\Result;
 use Exception;
 use Generator;
 
@@ -57,7 +57,7 @@ class Simple implements GeneratorInterface
      * @throws Exception
      * @throws \Doctrine\DBAL\Driver\Exception
      */
-    public function generate()
+    public function generate(): Generator
     {
         yield sprintf('digraph %s {', $this->databaseName);
 
@@ -72,11 +72,10 @@ class Simple implements GeneratorInterface
      * @return Generator<string>
      *
      * @throws Exception
-     * @throws \Doctrine\DBAL\Driver\Exception
      */
-    protected function getTables()
+    protected function getTables(): Generator
     {
-        /** @var Statement $statement */
+        /** @var Result $statement */
         $statement = $this->connection->executeQuery('SHOW TABLES');
 
         /* @var string $tableName */
@@ -93,12 +92,12 @@ class Simple implements GeneratorInterface
     /**
      * @return Generator<string>
      *
-     * @throws Exception|\Doctrine\DBAL\Driver\Exception
+     * @throws Exception
      */
-    protected function getRelationships()
+    protected function getRelationships(): Generator
     {
         foreach ($this->tables as $tableName) {
-            /** @var Statement $createStatement */
+            /** @var Result $createStatement */
             $createStatement = $this->connection->executeQuery(sprintf('SHOW CREATE TABLE %s', $tableName));
             /*
              * @psalm-suppress MixedAssignment
