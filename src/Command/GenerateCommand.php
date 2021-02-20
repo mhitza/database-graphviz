@@ -91,7 +91,7 @@ class GenerateCommand extends Command
      * @throws Exception
      * @throws \Doctrine\DBAL\Exception
      */
-    protected function execute(InputInterface $input, OutputInterface $output)
+    protected function execute(InputInterface $input, OutputInterface $output): int
     {
         /**
          * @var string $databaseName
