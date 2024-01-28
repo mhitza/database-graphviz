@@ -31,5 +31,5 @@ interface GeneratorInterface
     /**
      * @return Generator<string>|string
      */
-    public function generate();
+    public function generate(): Generator|string;
 }

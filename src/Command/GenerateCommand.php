@@ -33,8 +33,8 @@ use Symfony\Component\Console\Output\OutputInterface;
 
 class GenerateCommand extends Command
 {
-    const TYPE_SIMPLE = 'simple';
-    const TYPE_RECORD = 'record';
+    public const TYPE_SIMPLE = 'simple';
+    public const TYPE_RECORD = 'record';
 
     protected static $defaultName = 'generate';
 
@@ -109,17 +109,11 @@ class GenerateCommand extends Command
             ]
         );
 
-        $generator = null;
-        switch ($input->getArgument('type')) {
-            case self::TYPE_SIMPLE:
-                $generator = new Simple($connection, $databaseName);
-                break;
-            case self::TYPE_RECORD:
-                $generator = new Record($connection, $databaseName);
-                break;
-            default:
-                throw new DomainException('Invalid type specified');
-        }
+        $generator = match ($input->getArgument('type')) {
+            self::TYPE_SIMPLE => new Simple($connection, $databaseName),
+            self::TYPE_RECORD => new Record($connection, $databaseName),
+            default => throw new DomainException('Invalid type specified'),
+        };
 
         $output->writeln($generator->generate());
 

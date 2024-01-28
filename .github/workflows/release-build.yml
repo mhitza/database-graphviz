@@ -19,10 +19,10 @@ jobs:
       - name: Install dependencies
         run: composer install --no-dev --no-interaction --no-progress
 
-      - name: Download phar-composer-1.2.0
+      - name: Download phar-composer-1.4.0
         run: |
-          wget https://github.com/clue/phar-composer/releases/download/v1.2.0/phar-composer-1.2.0.phar
-          mv phar-composer-1.2.0.phar phar-composer
+          wget https://github.com/clue/phar-composer/releases/download/v1.2.0/phar-composer-1.4.0.phar
+          mv phar-composer-1.4.0.phar phar-composer
           chmod +x phar-composer
 
       - name: Build phar

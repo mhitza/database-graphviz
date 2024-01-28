@@ -21,7 +21,6 @@
 namespace DatabaseGraphviz\Generator;
 
 use Doctrine\DBAL\Connection;
-use Doctrine\DBAL\Result;
 use Exception;
 use Generator;
 
@@ -49,7 +48,6 @@ class Simple implements GeneratorInterface
      * @return Generator<string>
      *
      * @throws Exception
-     * @throws \Doctrine\DBAL\Driver\Exception
      */
     public function generate(): Generator
     {
@@ -69,7 +67,6 @@ class Simple implements GeneratorInterface
      */
     protected function getTables(): Generator
     {
-        /** @var Result $statement */
         $statement = $this->connection->executeQuery('SHOW TABLES');
 
         /* @var string $tableName */
@@ -77,7 +74,7 @@ class Simple implements GeneratorInterface
          * @psalm-suppress MixedAssignment
          */
         while (false !== ($tableName = $statement->fetchOne())) {
-            $this->tables[] = "$tableName";
+            $this->tables[] = $tableName;
 
             yield "\t$tableName;";
         }
@@ -91,7 +88,6 @@ class Simple implements GeneratorInterface
     protected function getRelationships(): Generator
     {
         foreach ($this->tables as $tableName) {
-            /** @var Result $createStatement */
             $createStatement = $this->connection->executeQuery(sprintf('SHOW CREATE TABLE %s', $tableName));
             /*
              * @psalm-suppress MixedAssignment

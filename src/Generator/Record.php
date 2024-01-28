@@ -21,7 +21,6 @@
 namespace DatabaseGraphviz\Generator;
 
 use Doctrine\DBAL\Connection;
-use Doctrine\DBAL\Result;
 use Exception;
 use Generator;
 
@@ -44,13 +43,12 @@ class Record implements GeneratorInterface
      * @return Generator<string>
      *
      * @throws Exception
-     * @throws \Doctrine\DBAL\Driver\Exception
      */
     public function generate(): Generator
     {
-        yield sprintf('digraph %s {', $this->databaseName);
-        yield sprintf("\tnode [shape=record];");
-        yield sprintf("\trankdir=LR;");
+        yield 'digraph ' . $this->databaseName . ' {';
+        yield "\tnode [shape=record];";
+        yield "\trankdir=LR;";
 
         $this->collectTables();
 
@@ -64,7 +62,6 @@ class Record implements GeneratorInterface
      */
     protected function collectTables(): void
     {
-        /** @var Result $statement */
         $statement = $this->connection->executeQuery('SHOW TABLES');
         /*
          * @psalm-suppress MixedAssignment
@@ -82,7 +79,6 @@ class Record implements GeneratorInterface
     protected function getTablesWithRowsAndRelationships(): Generator
     {
         foreach ($this->tables as $tableName) {
-            /** @var Result $createStatement */
             $createStatement = $this->connection->executeQuery(sprintf('SHOW CREATE TABLE %s', $tableName));
             /*
              * @psalm-suppress MixedAssignment
@@ -122,7 +118,7 @@ class Record implements GeneratorInterface
                 array_unshift($columns, $tableName);
 
                 yield sprintf("\t%s [label=\"%s\"];", $tableName, implode('|', array_map(
-                    function ($column) {
+                    static function ($column) {
                         return sprintf('<%s> %s', $column, $column);
                     },
                     $columns
