@@ -22,8 +22,8 @@ namespace DatabaseGraphviz\Command;
 
 use DatabaseGraphviz\Generator\Record;
 use DatabaseGraphviz\Generator\Simple;
-use Doctrine\DBAL\Driver\Exception;
 use Doctrine\DBAL\DriverManager;
+use Doctrine\DBAL\Exception;
 use DomainException;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputArgument;
@@ -89,7 +89,7 @@ class GenerateCommand extends Command
      * @return int
      *
      * @throws Exception
-     * @throws \Doctrine\DBAL\Exception
+     * @throws \Exception
      */
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
