@@ -36,7 +36,7 @@ class GenerateCommand extends Command
     public const TYPE_SIMPLE = 'simple';
     public const TYPE_RECORD = 'record';
 
-    protected static $defaultName = 'generate';
+    protected static string $defaultName = 'generate';
 
     /**
      * @var string[]
